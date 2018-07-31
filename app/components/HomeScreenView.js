@@ -3,20 +3,22 @@ import {
     StyleSheet,
     FlatList,
     View,
-    Text,
     Image,
-    Button,
     ActivityIndicator,
     TouchableOpacity
 } from 'react-native';
 
 import I18n from '../i18n'
-import Tweet from '../components/Tweet';
+import Tweet from '../components/Tweet'
+import {fontMaker} from '../scripts/Font'
 
 export default class HomeScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
           title: I18n.t("home.title"),
+          headerTitleStyle:{ 
+            fontWeight: 'normal'
+          },
           headerRight: (
             <TouchableOpacity onPress={navigation.getParam('sortButtonOnPress')}>
                 <Image source={navigation.getParam('sortButtonSrc')} style={styles.sortButton}/>
@@ -40,18 +42,18 @@ export default class HomeScreen extends Component {
     }
     
     compareTweetsDesc(a,b) {
-        if (a.followers_count < b.followers_count)
+        if (a.user.followers_count < b.user.followers_count)
             return 1;
-        if (a.followers_count > b.followers_count)
+        if (a.user.followers_count > b.user.followers_count)
             return -1;
         return 0;
     }
     
     
     compareTweetsAsc(a,b) {
-        if (a.followers_count < b.followers_count)
+        if (a.user.followers_count < b.user.followers_count)
             return -1;
-        if (a.followers_count > b.followers_count)
+        if (a.user.followers_count > b.user.followers_count)
             return 1;
         return 0;
     }
@@ -88,7 +90,6 @@ export default class HomeScreen extends Component {
     }
 
     render() {
-        console.log("Render", this.props.loading);
         if (this.props.loading) {
             return (
                 <View style={styles.activityIndicatorContainer}>
